@@ -18,18 +18,17 @@ var curriculoSchema = new Schema({
       type: String
    },
    vaga : {
-      type: integer,
+      type: Number,
       enum: [0,1],
       default: 0
    },
    ambiente : {
-      type: integer,
+      type: Number,
       enum:[0,1],
       default: 0
    },
    zip: {
       type: String
    }
-
 });
 module.exports = mongoose.model('Curriculo', curriculoSchema);

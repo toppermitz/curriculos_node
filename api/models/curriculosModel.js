@@ -1,6 +1,5 @@
 'use strict';
 var mongoose = require('mongoose');
-var swaggerMongoose = require('swagger-mongoose');
 var Schema = mongoose.Schema;
 var curriculoSchema = new Schema({
    nome: {
@@ -14,6 +13,22 @@ var curriculoSchema = new Schema({
    },
    linkedin: {
        type: String
+   },
+   pdfcurriculo : {
+      type: String
+   },
+   vaga : {
+      type: integer,
+      enum: [0,1],
+      default: 0
+   },
+   ambiente : {
+      type: integer,
+      enum:[0,1],
+      default: 0
+   },
+   zip: {
+      type: String
    }
 
 });

@@ -1,12 +1,15 @@
-const express = require('express');
-const app = express();
+var express = require('express'),
+app = express(),
+port = process.env.PORT || 3000,
+mongoose = require('mongoose'),
+Curriculo = require('./api/models/curriculosModel'),
+bodyParser = require('body-parser');
 
-app.get('/', (req, res) => {
-  res.send(505,'Hello from App Engine!');
-});
-
-// Listen to the App Engine-specified port, or 8080 otherwise
-const PORT = process.env.PORT || 1825;
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}...`);
-});
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/msgdb');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+var routes = require('./api/routes/curriculosRoute');
+routes(app);
+app.listen(port);
+console.log('Message RESTful API server started on: ' + port);

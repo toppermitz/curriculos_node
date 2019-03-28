@@ -6,7 +6,7 @@ Curriculo = require('./api/models/curriculosModel'),
 bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/msgdb');
+mongoose.connect('mongodb://localhost/curriculodb');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 var routes = require('./api/routes/curriculosRoute');

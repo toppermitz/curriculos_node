@@ -5,6 +5,8 @@ mongoose = require('mongoose')
 
 
 mongoose.Promise = global.Promise;
+
+
 mongoose.connect('mongodb://localhost/curriculodb', {useNewUrlParser: true, useUnifiedTopology: true});
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -13,7 +15,7 @@ var routes = require('./api/routes/curriculosRoute');
 routes(app);
 
 app.get('/', function (req, res) {
-    res.render('index', { title: 'Hey', message: 'Hello there!'});
+    res.status(200).send('Hello!');
 });
   
 

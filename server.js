@@ -1,14 +1,13 @@
 var express = require('express'),
 app = express(),
 port = process.env.PORT || 3000,
-mongoose = require('mongoose'),
-bodyParser = require('body-parser');
+mongoose = require('mongoose')
+
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/curriculodb', {useNewUrlParser: true});
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.set('view engine', 'pug');
+mongoose.connect('mongodb://localhost/curriculodb', {useNewUrlParser: true, useUnifiedTopology: true});
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 var model = require('./api/models/curriculosModel');
 var routes = require('./api/routes/curriculosRoute');
 routes(app);

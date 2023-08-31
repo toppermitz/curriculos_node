@@ -13,7 +13,7 @@
     "b2a": "^1.1.2",
     "email-validator": "^2.0.4",
     "express": "^4.18.1",
-    "mongoose": "^6.5.2"
+    "mongoose": "^6.12.0"
   },
   "proxy": "http://localhost:3000"
 }

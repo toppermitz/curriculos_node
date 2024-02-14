@@ -1,23 +1,21 @@
-var express = require('express'),
-app = express(),
-port = process.env.PORT || 3000,
-mongoose = require('mongoose')
+require('./api/models/curriculosModel');
+
+const mongoose = require('mongoose');
+const express = require('express');
+const routes = require('./api/routes/curriculosRoute');
 
 
-mongoose.Promise = global.Promise;
+const app = express();
+const port = process.env.PORT || 3000;
 
 
+mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://localhost/curriculodb', {useNewUrlParser: true, useUnifiedTopology: true});
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-var model = require('./api/models/curriculosModel');
-var routes = require('./api/routes/curriculosRoute');
-routes(app);
 
-app.get('/', function (req, res) {
-    res.status(200).send('Hello!');
-});
-  
+routes(app);
 
 app.use(function(err, req, res, next) {
     console.error(err.stack);

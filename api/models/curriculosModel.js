@@ -1,15 +1,10 @@
 'use strict';
-var 
-mongoose = require('mongoose'),
-b2a = require('b2a'),
-validator = require("email-validator");
+const mongoose = require('mongoose');
+const validator = require("email-validator");
  
+const Schema = mongoose.Schema;
 
-
-
-var Schema = mongoose.Schema;
-
-var curriculoSchema = new Schema({
+const curriculoSchema = new Schema({
    nome: {
       type: String,
       required: [true, 'Campo "nome" é obrigatório']
@@ -43,7 +38,7 @@ var curriculoSchema = new Schema({
       validate: {
          validator: function(v) {
             try {
-            var teste = b2a.atob(v)
+               Buffer.from(v, 'base64');
             } catch(e) {
              return false;
             }
@@ -57,7 +52,7 @@ var curriculoSchema = new Schema({
       type: String,
       enum: /*[0,1],*/
       {
-         values: ['delphi', 'mobile']
+         values: ['delphi', 'mobile', 'nodejs', 'react']
        , message: 'Campo "vaga" é obrigatório'
        },
       default: 'delphi'

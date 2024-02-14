@@ -1,9 +1,9 @@
 'use strict';
 
-var Curriculo = require('mongoose').model('Curriculo');
+const Curriculo = require('mongoose').model('Curriculo');
 
 exports.send_curriculo = function(req, res) {
-   var new_curriculo = new Curriculo(req.body);
+   const new_curriculo = new Curriculo(req.body);
    new_curriculo.save(function(err) {
    if (err)
       res.status(500).json({ Retorno: err });

@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "email-validator": "^2.0.4",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "mongoose": "^6.12.6"
   },
   "proxy": "http://localhost:3000"

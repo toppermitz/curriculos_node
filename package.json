@@ -10,9 +10,9 @@
   "author": "Anderson Dapper Rocha",
   "license": "ISC",
   "dependencies": {
-    "email-validator": "^2.0.4",
-    "express": "^4.19.2",
-    "mongoose": "^6.12.6"
+    "express": "^4.21.0",
+    "mongoose": "^8.7.0",
+    "zod": "^3.23.8"
   },
   "proxy": "http://localhost:3000"
 }

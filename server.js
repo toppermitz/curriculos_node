@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 
 
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb://localhost/curriculodb', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost/curriculodb', {});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

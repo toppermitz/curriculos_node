@@ -1,9 +1,8 @@
 'use strict';
 const mongoose = require('mongoose');
-const validator = require("email-validator");
- 
-const Schema = mongoose.Schema;
+const z = require("zod");
 
+const Schema = mongoose.Schema;
 const curriculoSchema = new Schema({
    nome: {
       type: String,
@@ -13,7 +12,7 @@ const curriculoSchema = new Schema({
       type: String,
       validate: {
          validator: function(v) {
-            return validator.validate(v);
+            return z.string().email().parse(v);
          },
          message: props => `${props.value} não parece ser um email válido!`
       },

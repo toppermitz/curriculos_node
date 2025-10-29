@@ -14,15 +14,15 @@ const curriculoZodSchema = z.object({
    zip: z.string().regex(/[^A-Za-z0-9+/=]/)
 });
 
-exports.send_curriculo = function(req, res) {
-   const curriculo = curriculoZodSchema.parse(req.body);
-   
-   const new_curriculo = new Curriculo(curriculo);
-   new_curriculo.save(function(err) {
-      if (err) {
-         res.status(400).json({ Retorno: err });
-      }
-   
+exports.send_curriculo = async function(req, res) {
+   try {
+      const curriculo = curriculoZodSchema.parse(req.body);
+
+      const new_curriculo = new Curriculo(curriculo);
+      await new_curriculo.save();
+
       res.status(200).json({Retorno:'Seu currículo foi cadastrado com sucesso'});
-   })  
+   } catch (err) {
+      res.status(400).json({ Retorno: err });
+   }
 }

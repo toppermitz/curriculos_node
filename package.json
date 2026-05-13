@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node --env-file-if-exists=.env server.js",
-    "dev": "node --watch --env-file-if-exists=.env server.js",
+    "dev": "NODE_ENV=development node --watch --env-file-if-exists=.env server.js",
     "test": "node --test"
   },
   "author": "Anderson Dapper Rocha",

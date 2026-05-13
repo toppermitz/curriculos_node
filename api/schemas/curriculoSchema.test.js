@@ -45,6 +45,11 @@ test('rejeita base64 malformado em pdfcurriculo', () => {
   assert.equal(result.success, false);
 });
 
+test('rejeita base64 malformado em zip', () => {
+  const result = curriculoSchema.safeParse({ ...validPayload(), zip: '!!!nao base64!!!' });
+  assert.equal(result.success, false);
+});
+
 test('rejeita nome vazio', () => {
   const result = curriculoSchema.safeParse({ ...validPayload(), nome: '' });
   assert.equal(result.success, false);

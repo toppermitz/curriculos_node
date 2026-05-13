@@ -11,6 +11,9 @@ const port = Number.isInteger(parsedPort) && parsedPort > 0 && parsedPort <= 65_
 
 const app = express();
 
+const trustProxyRaw = process.env.TRUST_PROXY ?? '1';
+app.set('trust proxy', /^\d+$/.test(trustProxyRaw) ? Number(trustProxyRaw) : trustProxyRaw);
+
 app.use(pinoHttp({ logger }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -23,7 +26,7 @@ app.use((err, req, res, _next) => {
     return res.status(400).json({ erro: 'validação falhou', detalhes: err.issues });
   }
   if (err instanceof MongoServerError && err.code === 11000) {
-    req.log.warn({ err }, 'duplicate key');
+    req.log.warn({ code: err.code, keyPattern: err.keyPattern }, 'duplicate key');
     return res.status(409).json({ erro: 'registro duplicado' });
   }
   req.log.error({ err }, 'erro não tratado');
@@ -48,15 +51,13 @@ const shutdown = (signal) => {
     process.exit(1);
   }, 10_000).unref();
   server.close(async () => {
-    let exitCode = 0;
     try {
       await dbClose();
     } catch (err) {
       logger.error({ err }, 'erro ao fechar conexão mongodb');
-      exitCode = 1;
+      process.exitCode = 1;
     } finally {
       clearTimeout(forceTimer);
-      process.exit(exitCode);
     }
   });
 };

@@ -58,6 +58,7 @@ const shutdown = (signal) => {
       process.exitCode = 1;
     } finally {
       clearTimeout(forceTimer);
+      process.exit(process.exitCode ?? 0);
     }
   });
 };

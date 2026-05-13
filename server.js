@@ -6,7 +6,8 @@ import { logger } from './api/logger.js';
 import { connect as dbConnect, close as dbClose } from './api/db.js';
 import { router } from './api/routes/curriculosRoute.js';
 
-const port = Number(process.env.PORT ?? 3000);
+const parsedPort = Number.parseInt(process.env.PORT ?? '', 10);
+const port = Number.isInteger(parsedPort) && parsedPort > 0 && parsedPort <= 65_535 ? parsedPort : 3000;
 
 const app = express();
 
@@ -32,7 +33,7 @@ app.use((err, req, res, _next) => {
 try {
   await dbConnect();
 } catch (err) {
-  logger.fatal({ err: err.message }, 'falha ao conectar no mongodb');
+  logger.fatal({ err }, 'falha ao conectar no mongodb');
   process.exit(1);
 }
 
@@ -40,16 +41,24 @@ const server = app.listen(port, () => {
   logger.info({ port }, 'servidor iniciado');
 });
 
-const shutdown = async (signal) => {
+const shutdown = (signal) => {
   logger.info({ signal }, 'recebido sinal de shutdown');
-  server.close(async () => {
-    await dbClose();
-    process.exit(0);
-  });
-  setTimeout(() => {
+  const forceTimer = setTimeout(() => {
     logger.error('shutdown forçado após timeout');
     process.exit(1);
   }, 10_000).unref();
+  server.close(async () => {
+    let exitCode = 0;
+    try {
+      await dbClose();
+    } catch (err) {
+      logger.error({ err }, 'erro ao fechar conexão mongodb');
+      exitCode = 1;
+    } finally {
+      clearTimeout(forceTimer);
+      process.exit(exitCode);
+    }
+  });
 };
 
 process.on('SIGTERM', () => shutdown('SIGTERM'));

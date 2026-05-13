@@ -1,15 +1,18 @@
 import { z } from 'zod';
 
-const base64 = z.string().refine(
-  (v) => {
-    try {
-      return Buffer.from(v, 'base64').toString('base64').replace(/=+$/, '') === v.replace(/=+$/, '');
-    } catch {
-      return false;
-    }
-  },
-  { message: 'valor não é um base64 válido' },
-);
+const base64 = z
+  .string()
+  .min(1, 'campo obrigatório')
+  .refine(
+    (v) => {
+      try {
+        return Buffer.from(v, 'base64').toString('base64').replace(/=+$/, '') === v.replace(/=+$/, '');
+      } catch {
+        return false;
+      }
+    },
+    { message: 'valor não é um base64 válido' },
+  );
 
 export const curriculoSchema = z.object({
   nome: z.string().min(1, 'campo "nome" é obrigatório'),

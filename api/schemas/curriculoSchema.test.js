@@ -50,6 +50,16 @@ test('rejeita base64 malformado em zip', () => {
   assert.equal(result.success, false);
 });
 
+test('rejeita pdfcurriculo vazio', () => {
+  const result = curriculoSchema.safeParse({ ...validPayload(), pdfcurriculo: '' });
+  assert.equal(result.success, false);
+});
+
+test('rejeita zip vazio', () => {
+  const result = curriculoSchema.safeParse({ ...validPayload(), zip: '' });
+  assert.equal(result.success, false);
+});
+
 test('rejeita nome vazio', () => {
   const result = curriculoSchema.safeParse({ ...validPayload(), nome: '' });
   assert.equal(result.success, false);
